@@ -2,6 +2,7 @@ from pprint import pprint
 # читаем адресную книгу в формате CSV в список contacts_list
 import csv
 import re
+import collections
 
 
 def OpenFile():
@@ -48,18 +49,25 @@ def get_numbers(): ##Исправление номеров телефона
                 pass
     return data
 
-def del_duplicate():
-    data = get_numbers()
-    for lists in data:
-        print(lists)
-        if lists[0] and lists[1]:
+def del_duplicate(data: list):
+    dict_names = {}
+    for i in range(1, len(data)):
+        dict_names[i] = data[i][0:2]
+
+    print(dict_names)
+
+
+
+
+
+
 
 # TODO 2: сохраните получившиеся данные в другой файл
 # код для записи файла в формате CSV
 
 
 if __name__ == "__main__":
-   del_duplicate()
+   del_duplicate(get_numbers())
    # with open("phonebook.csv", "w", encoding='UTF-8') as f:
    #     datawriter = csv.writer(f, delimiter=',')
    #     # Вместо contacts_list подставьте свой список
