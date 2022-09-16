@@ -4,35 +4,26 @@ import csv
 import re
 
 def OpenFile():
-  with open("phonebook_raw.csv") as f:
+  with open("phonebook_raw.csv", encoding='UTF-8') as f:
     rows = csv.reader(f, delimiter=",")
     contacts_list = list(rows)
   return contacts_list
 
-def Clear_empty_elements():
-  result = []
-  for elements in OpenFile():
-    not_empty = []
-    for items in elements:
-      if len(items) > 0:
-        not_empty.append(items)
-    result.append(not_empty)
-  return result
-
 def get_names():
   pattern = r'([А-ЯЁ]\w+)'
   result = []
-  data = Clear_empty_elements()
+  data = OpenFile()
+  result.append(data[0])
   for elements in data:
     temp_list = []
-    for items in elements:
-      word_list = re.findall(pattern, items)
-      if len(word_list) > 0:
-        for names in word_list:
-          temp_list.append(names)
-      else:
-        temp_list.append(items)
-    result.append(temp_list)
+    for items in elements[0:2]:
+        word_list = re.findall(pattern, items)
+        if len(word_list) > 0:
+            for names in word_list:
+                temp_list.append(names)
+    if len(temp_list) != 0:
+        result.append(temp_list)
+    temp_list.extend(elements[3:len(elements)])
   return result
 
 def get_numbers():
@@ -47,4 +38,4 @@ def get_numbers():
 #   datawriter.writerows(contacts_list)
 
 if __name__ == "__main__":
-  pprint(get_names())
+  print(get_names())
